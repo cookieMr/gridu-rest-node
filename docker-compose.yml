@@ -1,0 +1,61 @@
+version: '3.9'
+
+services:
+
+  docker-mysql:
+    image: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysql_very_secret_root_password
+      - MYSQL_DATABASE=gridu
+      - MYSQL_USER=docker
+      - MYSQL_PASSWORD=mysql_very_secret_docker_password
+    volumes:
+      - ./resources/00_config_privileges.sql:/docker-entrypoint-initdb.d/00_config_privileges.sql
+      - ./resources/10_create_tables.sql:/docker-entrypoint-initdb.d/10_create_tables.sql
+      - ./resources/20_inserts.sql:/docker-entrypoint-initdb.d/20_inserts.sql
+    logging:
+      driver: none
+    networks:
+      - node_gridu_develop
+
+  docker-phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    environment:
+      - PMA_HOST=docker-mysql
+      - PMA_PORT=3306
+      - PMA_ARBITRARY=0
+    ports:
+      - "8082:80"
+    depends_on:
+      - docker-mysql
+    logging:
+      driver: none
+    networks:
+      - node_gridu_develop
+
+  docker-the-web-app:
+    build: .
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - DEBUG_LOG=false
+      - HTTP_PORT=8080 # this port needs to be the same as exposed port
+      - MYSQL_HOST=docker-mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=docker
+      - MYSQL_PASSWORD=mysql_very_secret_docker_password
+      - MYSQL_DATABASE=gridu
+    logging:
+      driver: local
+    depends_on:
+      - docker-phpmyadmin
+    networks:
+      - node_gridu_develop
+
+networks:
+  node_gridu_develop:

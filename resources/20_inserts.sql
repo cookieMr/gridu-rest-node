@@ -1,0 +1,8 @@
+INSERT INTO users (USER_NAME) VALUES ('cookieMr');
+INSERT INTO users (USER_NAME) VALUES ('cookieMiss');
+
+INSERT INTO exercises (USER_ID, _DESCRIPTION, DURATION, _DATE) VALUES (1, '10 push ups', '1min', '2022-02-28');
+INSERT INTO exercises (USER_ID, _DESCRIPTION, DURATION, _DATE) VALUES (1, '10 pull ups', '3min', '2022-03-01');
+INSERT INTO exercises (USER_ID, _DESCRIPTION, DURATION, _DATE) VALUES (2, '10 push ups', '1min', '2022-02-27');
+INSERT INTO exercises (USER_ID, _DESCRIPTION, DURATION, _DATE) VALUES (2, '10 pull ups', '2min', '2022-02-28');
+INSERT INTO exercises (USER_ID, _DESCRIPTION, DURATION, _DATE) VALUES (2, '10km run', '2hour', '2022-03-01');
