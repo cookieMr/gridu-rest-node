@@ -11,11 +11,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}:{{port}}/",
+					"raw": "http://localhost:8080/",
+					"protocol": "http",
 					"host": [
-						"{{baseUrl}}"
+						"localhost"
 					],
-					"port": "{{port}}",
+					"port": "8080",
 					"path": [
 						""
 					]
@@ -29,11 +30,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}:{{port}}/api/users",
+					"raw": "http://localhost:8080/api/users",
+					"protocol": "http",
 					"host": [
-						"{{baseUrl}}"
+						"localhost"
 					],
-					"port": "{{port}}",
+					"port": "8080",
 					"path": [
 						"api",
 						"users"
@@ -48,11 +50,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}:{{port}}/api/users/:id",
+					"raw": "http://localhost:8080/api/users/:id",
+					"protocol": "http",
 					"host": [
-						"{{baseUrl}}"
+						"localhost"
 					],
-					"port": "{{port}}",
+					"port": "8080",
 					"path": [
 						"api",
 						"users",
@@ -61,7 +64,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "1"
+							"value": "11a"
 						}
 					]
 				}
@@ -75,7 +78,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{ \n    \"userName\": \"CookieJr\"\n}",
+					"raw": "{ \n    \"userName\": \"cookieJr\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -83,11 +86,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}:{{port}}/api/users",
+					"raw": "http://localhost:8080/api/users",
+					"protocol": "http",
 					"host": [
-						"{{baseUrl}}"
+						"localhost"
 					],
-					"port": "{{port}}",
+					"port": "8080",
 					"path": [
 						"api",
 						"users"
@@ -111,11 +115,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}:{{port}}/api/users/:id/exercises",
+					"raw": "http://localhost:8080/api/users/:id/exercises",
+					"protocol": "http",
 					"host": [
-						"{{baseUrl}}"
+						"localhost"
 					],
-					"port": "{{port}}",
+					"port": "8080",
 					"path": [
 						"api",
 						"users",
@@ -138,11 +143,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}:{{port}}/api/users/:id/logs",
+					"raw": "http://localhost:8080/api/users/:id/logs",
+					"protocol": "http",
 					"host": [
-						"{{baseUrl}}"
+						"localhost"
 					],
-					"port": "{{port}}",
+					"port": "8080",
 					"path": [
 						"api",
 						"users",
@@ -165,11 +171,12 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}:{{port}}/api/users/:id/logs",
+					"raw": "http://localhost:8080/api/users/:id/logs",
+					"protocol": "http",
 					"host": [
-						"{{baseUrl}}"
+						"localhost"
 					],
-					"port": "{{port}}",
+					"port": "8080",
 					"path": [
 						"api",
 						"users",
@@ -192,11 +199,12 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}:{{port}}/api/users/:id/logs?limit=10",
+					"raw": "http://localhost:8080/api/users/:id/logs?from=2022-03-01&to=2022-03-01&limit=10",
+					"protocol": "http",
 					"host": [
-						"{{baseUrl}}"
+						"localhost"
 					],
-					"port": "{{port}}",
+					"port": "8080",
 					"path": [
 						"api",
 						"users",
@@ -206,13 +214,11 @@
 					"query": [
 						{
 							"key": "from",
-							"value": "2022-03-01",
-							"disabled": true
+							"value": "2022-03-01"
 						},
 						{
 							"key": "to",
-							"value": "2022-03-01",
-							"disabled": true
+							"value": "2022-03-01"
 						},
 						{
 							"key": "limit",

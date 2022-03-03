@@ -1,0 +1,137 @@
+openapi: 3.0.0
+info:
+  title: GridU Node
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /:
+    get:
+      tags:
+        - default
+      summary: Hello App
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/users:
+    get:
+      tags:
+        - default
+      summary: Get All Users
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - default
+      summary: Create New User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                userName: cookieJr
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/users/{id}:
+    get:
+      tags:
+        - default
+      summary: Get User by ID
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 11a
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/users/{id}/exercises:
+    post:
+      tags:
+        - default
+      summary: Create New Exercise
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                userId: '3'
+                description: 9km run
+                duration: 1hour
+                date: '2022-02-02'
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: '3'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/users/{id}/logs:
+    get:
+      tags:
+        - default
+      summary: Get User Exercise Log
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: '1'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - default
+      summary: Get User Exercise Count Copy
+      requestBody:
+        content: {}
+      parameters:
+        - name: from
+          in: query
+          schema:
+            type: string
+          example: '2022-03-01'
+        - name: to
+          in: query
+          schema:
+            type: string
+          example: '2022-03-01'
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: '1'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
