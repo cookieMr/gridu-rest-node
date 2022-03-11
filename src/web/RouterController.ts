@@ -7,7 +7,7 @@ import { Exercise } from '../models/Exercise';
 
 export class RouterController {
   constructor(
-    private readonly port: number = Number(process.env.HTTP_PORT) || 8080,
+    private readonly port: number = Number(process.env.HTTP_PORT) || 3000,
     private readonly app: Express = express(),
     private readonly router: Router = express.Router(),
     private readonly userService: UserService = new UserService(),
@@ -60,7 +60,9 @@ export class RouterController {
         response.send(theUser);
       } else {
         response.statusCode = 404;
-        response.send();
+        response.send({
+          message: `User with id [${id}] doesn't exist.`,
+        });
       }
     } catch (error: any) {
       response.statusCode = 400;
@@ -92,24 +94,22 @@ export class RouterController {
   private readonly createExercise = async (request: any, response: any): Promise<void> => {
     try {
       const { id } = request.params;
-      const exercise = request.body as Exercise;
-      exercise.userId = id;
-      const [savedExercise, user] = await Promise.all([
-        this.exerciseService.createExercise(exercise),
-        this.userService.getById(id)
-      ]);
-
-      if(!savedExercise || !user) {
-        response.statusCode = 400;
-        response.send();
+      const user = await this.userService.getById(id);
+      if (!user) {
+        response.statusCode = 404;
+        response.send({
+          message: `User with id [${id}] doesn't exist.`,
+        });
         return;
       }
 
-      const userExercises = await this.exerciseService.getByUserId(id);
+      const exercise = request.body as Exercise;
+      exercise.userId = id;
 
+      const savedExercise = this.exerciseService.createExercise(exercise);
       response.send({
         user,
-        exercises: userExercises
+        exercise: savedExercise
       });
     } catch (error: any) {
       response.statusCode = 400;
@@ -152,15 +152,15 @@ export class RouterController {
     try {
       const { id } = request.params;
       const { from, to, limit } = request.query;
-      const exercises = await this.exerciseService.getByUserId(id);
-
       if (!from && !to) {
+
         response.send({
-          count: exercises?.length || 0
+          count: await this.exerciseService.getCountByUserId(id)
         });
         return;
       }
 
+      const exercises = await this.exerciseService.getByUserId(id);
       if (!!from && !!to) {
         const dateFrom = Date.parse(from);
         const dateTo = Date.parse(to);

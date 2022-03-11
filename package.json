@@ -1,10 +1,11 @@
 {
   "name": "gridu-node-dawid-boisse",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "scripts": {
     "build": "npm i && tsc --build",
+    "test": "exit 0;",
     "start": "node ./build/Application.js",
-    "restart": "npm i && tsc --build && node ./build/Application.js",
+    "restart": "npm i && tsc --build && DEBUG_LOG=true node ./build/Application.js",
     "docker": "docker-compose down && docker-compose up --build"
   },
   "dependencies": {

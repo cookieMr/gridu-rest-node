@@ -9,6 +9,6 @@ RUN npm config set fund false && \
     npm install @types/body-parser @types/express @types/mysql --save-dev && \
     tsc --build
 
-EXPOSE 8080
+EXPOSE 3000
 
 CMD [ "node", "./build/Application.js" ]

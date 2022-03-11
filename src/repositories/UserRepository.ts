@@ -1,4 +1,4 @@
-import knex, { Knex } from 'knex';
+import { Knex } from 'knex';
 import { User } from '../models/User';
 import { knexConnection } from './KnexInit';
 import { Log } from '../utils/Logger';
@@ -33,6 +33,17 @@ export class UserRepository {
   }
 
   @Log()
+  public async getByUserName(username: string): Promise<User[]> {
+    return this.knex(UserRepository.tableName)
+      .select()
+      .from(UserRepository.tableName)
+      .where('USER_NAME', username)
+      .then((records): User[] => {
+        return records.map(this.mapRecordToUser) as User[];
+      });
+  }
+
+  @Log()
   public async save(user: User): Promise<User> {
     await this.knex(UserRepository.tableName)
       .insert(this.mapUserToRecord(user))
@@ -46,11 +57,11 @@ export class UserRepository {
 
   private readonly mapRecordToUser = (record: Record<string, string>): User => ({
     id: record.ID,
-    userName: record.USER_NAME
+    username: record.USER_NAME
   } as User);
 
   private readonly mapUserToRecord = (user: User): { [key: string]: string } => ({
     'ID': user.id,
-    'USER_NAME': user.userName
+    'USER_NAME': user.username
   });
 }

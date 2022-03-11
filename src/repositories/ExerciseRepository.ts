@@ -12,14 +12,20 @@ export class ExerciseRepository {
   }
 
   @Log()
+  public getCountByUserId(userId: string): Promise<number[]> {
+    return this.knex(ExerciseRepository.tableName)
+      .count()
+      .where('USER_ID', userId)
+      .then((records): number[] => records.map(this.mapRecordToNumber) as number[]);
+  }
+
+  @Log()
   public getByUserId(userId: string): Promise<Exercise[]> {
     return this.knex(ExerciseRepository.tableName)
       .select()
       .from(ExerciseRepository.tableName)
       .where('USER_ID', userId)
-      .then((records): Exercise[] => {
-        return records.map(this.mapRecordToExercise) as Exercise[];
-      });
+      .then((records): Exercise[] => records.map(this.mapRecordToExercise) as Exercise[]);
   }
 
   @Log()
@@ -27,12 +33,12 @@ export class ExerciseRepository {
     await this.knex(ExerciseRepository.tableName)
       .insert(this.mapExerciseToRecord(exercise))
       .into(ExerciseRepository.tableName)
-      .then((record) => {
-        exercise.id = `${record.pop()}`;
-      });
+      .then((record) => exercise.id = `${record.pop()}`);
 
     return exercise;
   }
+
+  private readonly mapRecordToNumber = (record: any): number => record['count(*)'];
 
   private readonly mapRecordToExercise = (record: Record<string, string>): Exercise => ({
     id: record.ID,

@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS users (
     ID              INT             NOT NULL AUTO_INCREMENT,
-    USER_NAME       VARCHAR(50)     NOT NULL,
+    USER_NAME       VARCHAR(50)     NOT NULL UNIQUE,
 
     PRIMARY KEY (ID)
 );

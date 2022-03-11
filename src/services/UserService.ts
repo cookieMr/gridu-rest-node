@@ -21,9 +21,15 @@ export class UserService {
 
   @Log()
   public async createUser(user: User): Promise<User> {
-    if (!user || !user.userName) {
+    if (!user || !user.username) {
       throw new Error('User needs to have a name!');
     }
+
+    const sameNameUsers = await this.userRepository.getByUserName(user.username);
+    if (sameNameUsers.length !== 0) {
+      throw new Error('User with the same name already exists!');
+    }
+
     return this.userRepository.save(user);
   }
 }

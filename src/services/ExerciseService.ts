@@ -11,6 +11,12 @@ export class ExerciseService {
   }
 
   @Log()
+  public async getCountByUserId(userId: string): Promise<number> {
+    const result = await this.repository.getCountByUserId(userId);
+    return result.pop() || 0;
+  }
+
+  @Log()
   public async getByUserId(userId: string): Promise<Exercise[]> {
     return this.repository.getByUserId(userId);
   }
