@@ -25,6 +25,8 @@ export class ExerciseRepository {
       .select()
       .from(ExerciseRepository.tableName)
       .where('USER_ID', userId)
+      .orderBy('_DATE', 'desc')
+      .orderBy('ID')
       .then((records): Exercise[] => records.map(this.mapRecordToExercise) as Exercise[]);
   }
 

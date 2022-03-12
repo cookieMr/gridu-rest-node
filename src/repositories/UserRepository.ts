@@ -16,6 +16,7 @@ export class UserRepository {
     return this.knex(UserRepository.tableName)
       .select()
       .from(UserRepository.tableName)
+      .orderBy('ID')
       .then((records): User[] => {
         return records.map<User>(this.mapRecordToUser) as User[];
       });

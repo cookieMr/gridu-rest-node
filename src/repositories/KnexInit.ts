@@ -15,7 +15,7 @@ knexConnection.raw('SELECT 1')
   .then(() => {
     console.log('Knex Initialization - MySQL connected.');
   })
-  .catch((error) => {
+  .catch((error: any) => {
     console.log('Knex Initialization - MySQL not connected...');
     console.error(error);
   });

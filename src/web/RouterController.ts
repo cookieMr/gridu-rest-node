@@ -4,6 +4,13 @@ import { User } from '../models/User';
 import bodyParser from 'body-parser';
 import { ExerciseService } from '../services/ExerciseService';
 import { Exercise } from '../models/Exercise';
+import { Validation } from '../utils/Validation';
+
+type FromToLimitType = {
+  from: string | undefined,
+  to: string | undefined,
+  limit: string | undefined
+};
 
 export class RouterController {
   constructor(
@@ -35,8 +42,8 @@ export class RouterController {
 
   private readonly homePage = (request: any, response: any): void => {
     try {
-      response.send({message: 'Hello GridU!'});
-    } catch (error) {
+      response.send({ message: 'Hello GridU!' });
+    } catch (error: any) {
       response.statusCode = 400;
       response.send();
     }
@@ -45,7 +52,7 @@ export class RouterController {
   private readonly getAllUsers = async (request: any, response: any): Promise<void> => {
     try {
       response.send(await this.userService.getAll());
-    } catch (error) {
+    } catch (error: any) {
       response.statusCode = 400;
       response.send();
     }
@@ -106,7 +113,7 @@ export class RouterController {
       const exercise = request.body as Exercise;
       exercise.userId = id;
 
-      const savedExercise = this.exerciseService.createExercise(exercise);
+      const savedExercise = await this.exerciseService.createExercise(exercise);
       response.send({
         user,
         exercise: savedExercise
@@ -151,27 +158,29 @@ export class RouterController {
   private readonly getUserExercisesCount = async (request: any, response: any): Promise<void> => {
     try {
       const { id } = request.params;
-      const { from, to, limit } = request.query;
+      const { from, to, limit }: FromToLimitType = request.query;
       if (!from && !to) {
 
         response.send({
-          count: await this.exerciseService.getCountByUserId(id)
+          totalCount: await this.exerciseService.getCountByUserId(id)
         });
         return;
       }
 
       const exercises = await this.exerciseService.getByUserId(id);
       if (!!from && !!to) {
-        const dateFrom = Date.parse(from);
-        const dateTo = Date.parse(to);
+        const dateFrom = Validation.isValidDate(from);
+        const dateTo = Validation.isValidDate(to);
+        Validation.is1stDateBefore2ndDate(dateFrom, dateTo);
+
         const filteredExercise = exercises
           .filter(exercise => Date.parse(exercise.date) >= dateFrom)
           .filter(exercise => Date.parse(exercise.date) <= dateTo);
 
         response.send({
-          count: filteredExercise?.length || 0,
+          totalCount: filteredExercise?.length || 0,
           exercises: !!limit
-            ? filteredExercise.slice(0, limit)
+            ? filteredExercise.slice(0, Validation.isValidLimit(limit))
             : filteredExercise
         });
         return;
@@ -182,9 +191,9 @@ export class RouterController {
         const filteredExercise = exercises.filter(exercise => Date.parse(exercise.date) <= dateTo);
 
         response.send({
-          count: filteredExercise?.length || 0,
+          totalCount: filteredExercise?.length || 0,
           exercises: !!limit
-            ? filteredExercise.slice(0, limit)
+            ? filteredExercise.slice(0, Validation.isValidLimit(limit))
             : filteredExercise
         });
         return;
@@ -195,9 +204,9 @@ export class RouterController {
         const filteredExercise = exercises.filter(exercise => Date.parse(exercise.date) >= dateFrom);
 
         response.send({
-          count: filteredExercise?.length || 0,
+          totalCount: filteredExercise?.length || 0,
           exercises: !!limit
-            ? filteredExercise.slice(0, limit)
+            ? filteredExercise.slice(0, Validation.isValidLimit(limit))
             : filteredExercise
         });
       }
