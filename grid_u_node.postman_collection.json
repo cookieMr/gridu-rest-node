@@ -11,12 +11,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/",
+					"raw": "http://localhost:3000/",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "3000",
 					"path": [
 						""
 					]
@@ -30,12 +30,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/users",
+					"raw": "http://localhost:3000/api/users",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "3000",
 					"path": [
 						"api",
 						"users"
@@ -50,12 +50,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/users/:id",
+					"raw": "http://localhost:3000/api/users/:id",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "3000",
 					"path": [
 						"api",
 						"users",
@@ -64,7 +64,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "11a"
+							"value": "44"
 						}
 					]
 				}
@@ -78,7 +78,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{ \n    \"userName\": \"cookieJr\"\n}",
+					"raw": "{ \n    \"username\": \"cookieJr\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -86,12 +86,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/users",
+					"raw": "http://localhost:3000/api/users",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "3000",
 					"path": [
 						"api",
 						"users"
@@ -107,7 +107,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"userId\": \"3\",\n    \"description\": \"9km run\",\n    \"duration\": \"1hour\",\n    \"date\": \"2022-02-02\"\n}",
+					"raw": "{\n    \"userId\": \"33\",\n    \"description\": \"9km run\",\n    \"duration\": \"1hour\",\n    \"date\": \"2022-02-02\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -115,12 +115,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/users/:id/exercises",
+					"raw": "http://localhost:3000/api/users/:id/exercises",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "3000",
 					"path": [
 						"api",
 						"users",
@@ -143,12 +143,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/users/:id/logs",
+					"raw": "http://localhost:3000/api/users/:id/logs",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "3000",
 					"path": [
 						"api",
 						"users",
@@ -158,7 +158,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "1"
+							"value": "3"
 						}
 					]
 				}
@@ -171,12 +171,12 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/users/:id/logs",
+					"raw": "http://localhost:3000/api/users/:id/logs",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "3000",
 					"path": [
 						"api",
 						"users",
@@ -186,7 +186,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "1"
+							"value": "2"
 						}
 					]
 				}
@@ -194,17 +194,17 @@
 			"response": []
 		},
 		{
-			"name": "Get User Exercise Count Copy",
+			"name": "Get User Exercise Paging",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/users/:id/logs?from=2022-03-01&to=2022-03-01&limit=10",
+					"raw": "http://localhost:3000/api/users/:id/logs?from=2022-03-01&to=2022-03-01&limit=10",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "3000",
 					"path": [
 						"api",
 						"users",
@@ -264,7 +264,7 @@
 		},
 		{
 			"key": "port",
-			"value": "8080",
+			"value": "3000",
 			"type": "default"
 		}
 	]
