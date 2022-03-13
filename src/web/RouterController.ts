@@ -169,6 +169,8 @@ export class RouterController {
 
       response.send({
         totalCount,
+        count: exercises.length || 0,
+        limit,
         exercises
       });
     } catch (error: any) {
