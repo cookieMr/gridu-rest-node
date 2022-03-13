@@ -7,7 +7,11 @@ export class Validation {
   private static readonly limitRegexp = new RegExp('^[1-9]\d*$');
 
   @Log()
-  public static isValidDate(date: string): number {
+  public static isValidDate(date: string | undefined): number | undefined {
+    if (!date) {
+      return undefined;
+    }
+
     if (!Validation.dateRegexp.test(date)) {
       throw new Error(`The input date does not match a regexp for YYYY-MM-DD: [${date}]`);
     }
@@ -16,7 +20,11 @@ export class Validation {
   }
 
   @Log()
-  public static isValidLimit(limit: string): number {
+  public static isValidLimit(limit: string | undefined): number | undefined {
+    if (!limit) {
+      return undefined;
+    }
+
     if (!Validation.limitRegexp.test(limit)) {
       throw new Error(`The input limit is not a number: [${limit}]`);
     }

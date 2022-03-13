@@ -1,4 +1,4 @@
-import {isDebugOn} from "./Toggle";
+import { isDebugOn } from './Toggle';
 
 export const Log = () => {
   return (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) => {

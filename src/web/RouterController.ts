@@ -4,7 +4,6 @@ import { User } from '../models/User';
 import bodyParser from 'body-parser';
 import { ExerciseService } from '../services/ExerciseService';
 import { Exercise } from '../models/Exercise';
-import { Validation } from '../utils/Validation';
 
 type FromToLimitType = {
   from: string | undefined,
@@ -27,7 +26,7 @@ export class RouterController {
 
     this.router.post('/api/users/:id/exercises', this.createExercise);
     this.router.get('/api/users/:id/logs', this.getUserExercises);
-    this.router.post('/api/users/:id/logs', this.getUserExercisesCount);
+    this.router.post('/api/users/:id/logs', this.getUserExercisesLog);
 
     this.app.use(bodyParser.urlencoded({ extended: false }));
     this.app.use(bodyParser.json());
@@ -132,15 +131,13 @@ export class RouterController {
       const { id } = request.params;
       const [user, exercises] = await Promise.all([
         this.userService.getById(id),
-        this.exerciseService.getByUserId(id)
+        this.exerciseService.getAllByUserId(id)
       ]);
 
-      if(!user || !exercises) {
-        response.statusCode = 400;
+      if(!user) {
+        response.statusCode = 404;
         response.send({
-          message: 'Cannot find user or exercise.',
-          userFound: !!user,
-          userExercises: !!exercises
+          message: `Cannot find user with id [${id}].`,
         });
         return;
       }
@@ -155,61 +152,25 @@ export class RouterController {
     }
   };
 
-  private readonly getUserExercisesCount = async (request: any, response: any): Promise<void> => {
+  private readonly getUserExercisesLog = async (request: any, response: any): Promise<void> => {
     try {
       const { id } = request.params;
       const { from, to, limit }: FromToLimitType = request.query;
+
+      const totalCount = await this.exerciseService.getCountByUserId(id);
       if (!from && !to) {
-
-        response.send({
-          totalCount: await this.exerciseService.getCountByUserId(id)
-        });
+        response.send({ totalCount });
         return;
       }
 
-      const exercises = await this.exerciseService.getByUserId(id);
-      if (!!from && !!to) {
-        const dateFrom = Validation.isValidDate(from);
-        const dateTo = Validation.isValidDate(to);
-        Validation.is1stDateBefore2ndDate(dateFrom, dateTo);
+      const exercises = await this.exerciseService.getByUserIdPaging(
+        id, from, to, limit
+      );
 
-        const filteredExercise = exercises
-          .filter(exercise => Date.parse(exercise.date) >= dateFrom)
-          .filter(exercise => Date.parse(exercise.date) <= dateTo);
-
-        response.send({
-          totalCount: filteredExercise?.length || 0,
-          exercises: !!limit
-            ? filteredExercise.slice(0, Validation.isValidLimit(limit))
-            : filteredExercise
-        });
-        return;
-      }
-
-      if (!!to) {
-        const dateTo = Date.parse(to);
-        const filteredExercise = exercises.filter(exercise => Date.parse(exercise.date) <= dateTo);
-
-        response.send({
-          totalCount: filteredExercise?.length || 0,
-          exercises: !!limit
-            ? filteredExercise.slice(0, Validation.isValidLimit(limit))
-            : filteredExercise
-        });
-        return;
-      }
-
-      if (!!from) {
-        const dateFrom = Date.parse(from);
-        const filteredExercise = exercises.filter(exercise => Date.parse(exercise.date) >= dateFrom);
-
-        response.send({
-          totalCount: filteredExercise?.length || 0,
-          exercises: !!limit
-            ? filteredExercise.slice(0, Validation.isValidLimit(limit))
-            : filteredExercise
-        });
-      }
+      response.send({
+        totalCount,
+        exercises
+      });
     } catch (error: any) {
       response.statusCode = 400;
       response.send({

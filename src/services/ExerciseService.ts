@@ -1,6 +1,7 @@
 import { Exercise } from '../models/Exercise';
 import { ExerciseRepository } from '../repositories/ExerciseRepository';
 import { Log } from '../utils/Logger';
+import { Validation } from '../utils/Validation';
 
 export class ExerciseService {
   private static readonly isoDateRegexp = new RegExp('^\\d{4}-([0]\\d|1[0-2])-([0-2]\\d|3[01])$');
@@ -17,8 +18,22 @@ export class ExerciseService {
   }
 
   @Log()
-  public async getByUserId(userId: string): Promise<Exercise[]> {
+  public async getAllByUserId(userId: string): Promise<Exercise[]> {
     return this.repository.getByUserId(userId);
+  }
+
+  @Log()
+  public async getByUserIdPaging(
+    userId: string,
+    from: string | undefined,
+    to: string | undefined,
+    limit: string | undefined
+  ): Promise<Exercise[]> {
+    const nrFrom = Validation.isValidDate(from);
+    const nrTo = Validation.isValidDate(to);
+    const nrLimit = Validation.isValidLimit(limit);
+
+    return this.repository.getByUserIdPaging(userId, nrFrom, nrTo, nrLimit);
   }
 
   @Log()
