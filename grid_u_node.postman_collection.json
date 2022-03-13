@@ -7,9 +7,25 @@
 	"item": [
 		{
 			"name": "Hello App",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf-8",
+						"type": "default"
+					}
+				],
 				"url": {
 					"raw": "http://localhost:3000/",
 					"protocol": "http",
@@ -26,9 +42,25 @@
 		},
 		{
 			"name": "Get All Users",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf-8",
+						"type": "default"
+					}
+				],
 				"url": {
 					"raw": "http://localhost:3000/api/users",
 					"protocol": "http",
@@ -46,9 +78,25 @@
 		},
 		{
 			"name": "Get User by ID",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf-8",
+						"type": "default"
+					}
+				],
 				"url": {
 					"raw": "http://localhost:3000/api/users/:id",
 					"protocol": "http",
@@ -64,7 +112,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "44"
+							"value": "3"
 						}
 					]
 				}
@@ -73,9 +121,25 @@
 		},
 		{
 			"name": "Create New User",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf-8",
+						"type": "default"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{ \n    \"username\": \"cookieJr\"\n}",
@@ -101,13 +165,82 @@
 			"response": []
 		},
 		{
-			"name": "Create New Exercise",
+			"name": "Create New Exercise (with date)",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf-8",
+						"type": "default"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"userId\": \"33\",\n    \"description\": \"9km run\",\n    \"duration\": \"1hour\",\n    \"date\": \"2022-02-02\"\n}",
+					"raw": "{\n    \"description\": \"9km run\",\n    \"duration\": \"1hour\",\n    \"date\": \"2022-02-03\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/users/:id/exercises",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"users",
+						":id",
+						"exercises"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create New Exercise (without date)",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf-8",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"description\": \"gym\",\n    \"duration\": \"2hours\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -139,9 +272,25 @@
 		},
 		{
 			"name": "Get User Exercise Log",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf-8",
+						"type": "default"
+					}
+				],
 				"url": {
 					"raw": "http://localhost:3000/api/users/:id/logs",
 					"protocol": "http",
@@ -167,9 +316,25 @@
 		},
 		{
 			"name": "Get User Exercise Count",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf-8",
+						"type": "default"
+					}
+				],
 				"url": {
 					"raw": "http://localhost:3000/api/users/:id/logs",
 					"protocol": "http",
@@ -186,7 +351,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "2"
+							"value": "3"
 						}
 					]
 				}
@@ -195,11 +360,27 @@
 		},
 		{
 			"name": "Get User Exercise Paging",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf-8",
+						"type": "default"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:3000/api/users/:id/logs?from=2022-03-01&to=2022-03-01&limit=10",
+					"raw": "http://localhost:3000/api/users/:id/logs?limit=1&from=2022-02-02&to=2022-02-03",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -213,22 +394,22 @@
 					],
 					"query": [
 						{
+							"key": "limit",
+							"value": "1"
+						},
+						{
 							"key": "from",
-							"value": "2022-03-01"
+							"value": "2022-02-02"
 						},
 						{
 							"key": "to",
-							"value": "2022-03-01"
-						},
-						{
-							"key": "limit",
-							"value": "10"
+							"value": "2022-02-03"
 						}
 					],
 					"variable": [
 						{
 							"key": "id",
-							"value": "1"
+							"value": "3"
 						}
 					]
 				}
