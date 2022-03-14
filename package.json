@@ -34,6 +34,9 @@
     "collectCoverageFrom": [
       "src/**/*",
       "src/{!(tests),}.ts"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.ts"
     ]
   },
   "license": "MIT"
