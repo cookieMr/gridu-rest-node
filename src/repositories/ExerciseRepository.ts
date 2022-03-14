@@ -36,7 +36,9 @@ export class ExerciseRepository {
     await this.knex(ExerciseRepository.tableName)
       .insert(this.mapExerciseToRecord(exercise))
       .into(ExerciseRepository.tableName)
-      .then((record) => exercise.id = `${record.pop()}`);
+      .then((record) => {
+        exercise.id = `${record.pop()}`;
+      });
 
     return exercise;
   }
@@ -53,15 +55,15 @@ export class ExerciseRepository {
       .from(ExerciseRepository.tableName)
       .where('USER_ID', userId);
 
-    if(!!from) {
+    if (from) {
       knexQuery.andWhere('_DATE', '>=', epochToDateFormat(from));
     }
 
-    if(!!to) {
+    if (to) {
       knexQuery.andWhere('_DATE', '<=', epochToDateFormat(to));
     }
 
-    if(!!limit) {
+    if (limit) {
       knexQuery.limit(limit);
     }
 
@@ -70,21 +72,43 @@ export class ExerciseRepository {
       .then((records): Exercise[] => records.map(this.mapRecordToExercise) as Exercise[]);
   }
 
+  @Log()
+  public async getCountFromToByUserId(
+    userId: string,
+    from: number | undefined,
+    to: number | undefined
+  ): Promise<number[]> {
+    const knexQuery = this.knex(ExerciseRepository.tableName)
+      .count()
+      .from(ExerciseRepository.tableName)
+      .where('USER_ID', userId);
+
+    if (from) {
+      knexQuery.andWhere('_DATE', '>=', epochToDateFormat(from));
+    }
+
+    if (to) {
+      knexQuery.andWhere('_DATE', '<=', epochToDateFormat(to));
+    }
+
+    return knexQuery.then((records): number[] => records.map(this.mapRecordToNumber) as number[]);
+  }
+
   private readonly mapRecordToNumber = (record: any): number => record['count(*)'];
 
   private readonly mapRecordToExercise = (record: Record<string, string>): Exercise => ({
     id: record.ID,
     userId: record.USER_NAME,
-    description: record._DESCRIPTION,
+    description: record.DESCRIPTION,
     duration: record.DURATION,
-    date: record._DATE
+    date: record.DATE
   } as Exercise);
 
   private readonly mapExerciseToRecord = (exercise: Exercise): { [key: string]: string } => ({
-    'ID': exercise.id,
-    'USER_ID': exercise.userId,
-    '_DESCRIPTION': exercise.description,
-    'DURATION': exercise.duration,
-    '_DATE': exercise.date
+    ID: exercise.id,
+    USER_ID: exercise.userId,
+    _DESCRIPTION: exercise.description,
+    DURATION: exercise.duration,
+    _DATE: exercise.date
   });
 }

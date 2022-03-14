@@ -1,0 +1,15 @@
+# package directories
+.node_modules
+node_modules
+jspm_packages
+test-scripts
+
+# misc
+.DS_Store
+misc.xml
+modules.xml
+vcs.xml
+.idea
+Project_Default.xml
+.build
+coverage

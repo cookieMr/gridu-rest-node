@@ -1,7 +1,8 @@
+import bodyParser from 'body-parser';
 import express, { Express, Router } from 'express';
+import { get } from 'lodash';
 import { UserService } from '../services/UserService';
 import { User } from '../models/User';
-import bodyParser from 'body-parser';
 import { ExerciseService } from '../services/ExerciseService';
 import { Exercise } from '../models/Exercise';
 
@@ -62,7 +63,7 @@ export class RouterController {
       const { id } = request.params;
       const theUser = await this.userService.getById(id);
 
-      if(theUser) {
+      if (theUser) {
         response.send(theUser);
       } else {
         response.statusCode = 404;
@@ -82,7 +83,7 @@ export class RouterController {
   private readonly createUser = async (request: any, response: any): Promise<void> => {
     try {
       const savedUser: User = await this.userService.createUser(request.body as User);
-      if(savedUser) {
+      if (savedUser) {
         response.send(savedUser);
       } else {
         response.statusCode = 400;
@@ -95,7 +96,7 @@ export class RouterController {
         errorMessage: error.message
       });
     }
-  }
+  };
 
   private readonly createExercise = async (request: any, response: any): Promise<void> => {
     try {
@@ -134,7 +135,7 @@ export class RouterController {
         this.exerciseService.getAllByUserId(id)
       ]);
 
-      if(!user) {
+      if (!user) {
         response.statusCode = 404;
         response.send({
           message: `Cannot find user with id [${id}].`,
@@ -143,11 +144,11 @@ export class RouterController {
       }
 
       response.send({ user, exercises });
-    } catch (error: any) {
+    } catch (error) {
       response.statusCode = 400;
       response.send({
         message: 'Failed to get user\'s exercises.',
-        errorMessage: error.message
+        errorMessage: get(error, 'message')
       });
     }
   };
@@ -157,27 +158,26 @@ export class RouterController {
       const { id } = request.params;
       const { from, to, limit }: FromToLimitType = request.query;
 
-      const totalCount = await this.exerciseService.getCountByUserId(id);
       if (!from && !to) {
-        response.send({ totalCount });
+        const count = await this.exerciseService.getCountByUserId(id);
+        response.send({ count });
         return;
       }
 
-      const exercises = await this.exerciseService.getByUserIdPaging(
-        id, from, to, limit
-      );
+      const [count, exercises] = await Promise.all([
+        this.exerciseService.getCountFromToByUserId(id, from, to),
+        this.exerciseService.getByUserIdPaging(id, from, to, limit)
+      ]);
 
       response.send({
-        totalCount,
-        count: exercises.length || 0,
-        limit,
+        count,
         exercises
       });
-    } catch (error: any) {
+    } catch (error) {
       response.statusCode = 400;
       response.send({
         message: 'Failed to get user\'s exercise.',
-        errorMessage: error.message
+        errorMessage: get(error, 'message')
       });
     }
   };

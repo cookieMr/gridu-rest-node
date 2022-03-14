@@ -10,7 +10,7 @@ export class UserService {
 
   @Log()
   public async getAll(): Promise<User[]> {
-    return await this.userRepository.getAll();
+    return this.userRepository.getAll();
   }
 
   @Log()

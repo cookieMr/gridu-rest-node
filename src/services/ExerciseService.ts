@@ -4,7 +4,7 @@ import { Log } from '../utils/Logger';
 import { Validation } from '../utils/Validation';
 
 export class ExerciseService {
-  private static readonly isoDateRegexp = new RegExp('^\\d{4}-([0]\\d|1[0-2])-([0-2]\\d|3[01])$');
+  private static readonly isoDateRegexp = /^\\d{4}-([0]\\d|1[0-2])-([0-2]\\d|3[01])$/;
 
   constructor(
     private readonly repository: ExerciseRepository = new ExerciseRepository()
@@ -37,6 +37,19 @@ export class ExerciseService {
   }
 
   @Log()
+  public async getCountFromToByUserId(
+    userId: string,
+    from: string | undefined,
+    to: string | undefined
+  ): Promise<number> {
+    const nrFrom = Validation.isValidDate(from);
+    const nrTo = Validation.isValidDate(to);
+
+    const result = await this.repository.getCountFromToByUserId(userId, nrFrom, nrTo);
+    return result.pop() || 0;
+  }
+
+  @Log()
   public async createExercise(exercise: Exercise): Promise<Exercise> {
     if (!exercise || !exercise.userId || !exercise.description || !exercise.duration) {
       throw new Error('Exercise needs to have userId, description and duration properties!');
@@ -45,7 +58,7 @@ export class ExerciseService {
     if (!exercise.date) {
       exercise.date = new Date().toISOString().slice(0, 10);
     } else if (!ExerciseService.isoDateRegexp.test(exercise.date)) {
-      throw new Error('Exercise date needs to be a valid ISO Date (YYYY-MM-DD).')
+      throw new Error('Exercise date needs to be a valid ISO Date (YYYY-MM-DD).');
     }
 
     return this.repository.save(exercise);

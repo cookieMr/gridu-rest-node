@@ -17,9 +17,7 @@ export class UserRepository {
       .select()
       .from(UserRepository.tableName)
       .orderBy('ID')
-      .then((records): User[] => {
-        return records.map<User>(this.mapRecordToUser) as User[];
-      });
+      .then((records): User[] => records.map<User>(this.mapRecordToUser));
   }
 
   @Log()
@@ -28,9 +26,7 @@ export class UserRepository {
       .select()
       .from(UserRepository.tableName)
       .where('ID', id)
-      .then((records): User[] => {
-        return records.map(this.mapRecordToUser) as User[];
-      });
+      .then((records): User[] => records.map(this.mapRecordToUser));
   }
 
   @Log()
@@ -39,9 +35,7 @@ export class UserRepository {
       .select()
       .from(UserRepository.tableName)
       .where('USER_NAME', username)
-      .then((records): User[] => {
-        return records.map(this.mapRecordToUser) as User[];
-      });
+      .then((records): User[] => records.map(this.mapRecordToUser));
   }
 
   @Log()
@@ -62,7 +56,7 @@ export class UserRepository {
   } as User);
 
   private readonly mapUserToRecord = (user: User): { [key: string]: string } => ({
-    'ID': user.id,
-    'USER_NAME': user.username
+    ID: user.id,
+    USER_NAME: user.username
   });
 }

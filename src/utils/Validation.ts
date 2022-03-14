@@ -2,9 +2,9 @@ import { Log } from './Logger';
 
 export class Validation {
   // source of this regex: https://stackoverflow.com/a/22061879/2873858
-  private static readonly dateRegexp = new RegExp('^\\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$');
+  private static readonly dateRegexp = /^\\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$'/;
 
-  private static readonly limitRegexp = new RegExp('^[1-9]\d*$');
+  private static readonly limitRegexp = /^[1-9]\\d*$/;
 
   @Log()
   public static isValidDate(date: string | undefined): number | undefined {
